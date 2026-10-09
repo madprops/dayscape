@@ -177,7 +177,7 @@ QPushButton:focus {{ border-color: {C.ACCENT}; }}
 
 QPlainTextEdit#notes {{
     background: {C.BG}; border: 1px solid {C.BORDER}; border-radius: 12px;
-    padding: 10px 8px; font-size: 14px;
+    padding: 10px 8px; font-size: 20px;
     selection-background-color: {C.ACCENT_SOFT}; selection-color: {C.TEXT};
 }}
 QPlainTextEdit#notes:focus {{ border-color: #4A4290; }}

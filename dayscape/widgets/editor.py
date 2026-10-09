@@ -146,7 +146,7 @@ class NotesEdit(QPlainTextEdit):
             | Qt.InputMethodHint.ImhSensitiveData
         )
         self.document().setDocumentMargin(4)
-        self.setFont(font(14))
+        self.setFont(font(20))
         self.setCursorWidth(2)
         self.highlighter = TagHighlighter(self.document())
 

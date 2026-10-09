@@ -76,6 +76,13 @@ class MainWindow(QMainWindow):
 
         tlay.addStretch(1)
 
+        today_btn = label("Today", "muted")
+        today_btn.setObjectName("todayButton")
+        today_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        today_btn.mousePressEvent = lambda e: self._select_day(date.today())
+        tlay.addWidget(today_btn, 0, Qt.AlignmentFlag.AlignVCenter)
+        tlay.addSpacing(20)
+
         search_btn = label("Search...    (Ctrl+K)", "muted")
         search_btn.setObjectName("searchButton")
         search_btn.setCursor(Qt.CursorShape.PointingHandCursor)
