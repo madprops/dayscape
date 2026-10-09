@@ -80,8 +80,10 @@ class SyncManager(QObject):
             self.syncFinished.emit(False, "Failed to initialize repository.")
             return
 
-        # Add the db file
-        self._run_git("add", self.db_path.name)
+        # Add the db files
+        files_to_add = [p.name for p in self.db_dir.glob(f"{self.db_path.name}*")]
+        if files_to_add:
+            self._run_git("add", *files_to_add)
         
         # Check if there are changes
         has_changes, status = self._run_git("status", "--porcelain")
@@ -105,7 +107,9 @@ class SyncManager(QObject):
             return
 
         # Commit local changes first before pulling to avoid conflicts losing local data
-        self._run_git("add", self.db_path.name)
+        files_to_add = [p.name for p in self.db_dir.glob(f"{self.db_path.name}*")]
+        if files_to_add:
+            self._run_git("add", *files_to_add)
         has_changes, status = self._run_git("status", "--porcelain")
         if has_changes and status.strip():
             self._run_git("commit", "-m", "Auto commit before sync")
