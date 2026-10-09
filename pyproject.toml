@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dayscape"
+version = "0.1.0"
+description = "A private, day-by-day vibe journal with heatmaps and trend insights"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["PySide6>=6.6"]
+
+[project.scripts]
+dayscape = "dayscape.app:main"
+
+[tool.setuptools.packages.find]
+include = ["dayscape*"]
+
+[tool.setuptools.package-data]
+dayscape = ["assets/*.svg"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+lint.ignore = ["DTZ011"]
