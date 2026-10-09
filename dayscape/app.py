@@ -79,7 +79,7 @@ class MainWindow(QMainWindow):
         search_btn.setObjectName("searchButton")
         search_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         search_btn.mousePressEvent = lambda e: self._open_search()
-        tlay.addWidget(search_btn)
+        tlay.addWidget(search_btn, 0, Qt.AlignmentFlag.AlignVCenter)
 
         main_lay.addWidget(topbar)
 

@@ -146,7 +146,7 @@ QPushButton:focus {{ border-color: {C.ACCENT}; }}
 #segment QPushButton:checked {{ background: {C.ELEVATED}; color: {C.TEXT}; }}
 
 #searchButton {{
-    background: {C.BG}; text-align: left; padding: 7px 12px; min-width: 250px;
+    background: {C.BG}; border: 1px solid {C.BORDER}; border-radius: 8px; text-align: left; padding: 7px 12px; min-width: 250px;
     color: {C.TEXT_FAINT};
 }}
 #searchButton:hover {{ color: {C.TEXT_DIM}; border-color: {C.ACCENT}; background: {C.BG}; }}
