@@ -8,7 +8,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon, QKeySequence, QShortcut
 from PySide6.QtWidgets import (
     QApplication,
@@ -141,6 +141,11 @@ class MainWindow(QMainWindow):
 
         self.splitter.setSizes([700, 400])
 
+        settings = QSettings()
+        splitter_state = settings.value("splitterState")
+        if splitter_state:
+            self.splitter.restoreState(splitter_state)
+
         # Shortcuts
         QShortcut(QKeySequence("Ctrl+K"), self, self._open_search)
         QShortcut(QKeySequence("Ctrl+F"), self, self._open_search)
@@ -192,6 +197,8 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, e):
         self.editor.flush()
+        settings = QSettings()
+        settings.setValue("splitterState", self.splitter.saveState())
         super().closeEvent(e)
 
 
@@ -203,6 +210,8 @@ def main() -> int:
     args = parser.parse_args()
 
     app = QApplication(sys.argv)
+    app.setOrganizationName("Dayscape")
+    app.setApplicationName("Dayscape")
     app.setDesktopFileName("dayscape.desktop")
 
     icon_path = Path(__file__).parent / "assets" / "dayscape.svg"
