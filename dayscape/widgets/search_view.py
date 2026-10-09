@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QTimer
 from PySide6.QtWidgets import QHBoxLayout, QLineEdit, QScrollArea, QVBoxLayout, QWidget
 
 from dayscape.models import SCORE_WORDS, WEEKDAYS_SHORT, format_long
@@ -82,7 +82,14 @@ class SearchView(QWidget):
         self.input.setPlaceholderText("Search notes, tags (#work), or scores (score>=8)...")
         self.input.setObjectName("paletteInput")
         self.input.setMinimumHeight(40)
-        self.input.textChanged.connect(self._on_search)
+        
+        self.current_text = ""
+        self.search_timer = QTimer(self)
+        self.search_timer.setSingleShot(True)
+        self.search_timer.setInterval(250)
+        self.search_timer.timeout.connect(self._do_search)
+
+        self.input.textChanged.connect(self._on_text_changed)
 
         search_container = QWidget()
         search_container.setObjectName("palette")
@@ -118,7 +125,12 @@ class SearchView(QWidget):
             if item.widget():
                 item.widget().deleteLater()
 
-    def _on_search(self, text: str):
+    def _on_text_changed(self, text: str):
+        self.current_text = text
+        self.search_timer.start()
+
+    def _do_search(self):
+        text = self.current_text
         self._clear_results()
         if not text.strip():
             self.status.setText("Enter a query to search.")

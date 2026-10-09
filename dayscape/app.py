@@ -9,7 +9,7 @@ from datetime import date
 from pathlib import Path
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QKeySequence, QShortcut
+from PySide6.QtGui import QIcon, QKeySequence, QShortcut
 from PySide6.QtWidgets import (
     QApplication,
     QFrame,
@@ -191,6 +191,10 @@ def main() -> int:
     args = parser.parse_args()
 
     app = QApplication(sys.argv)
+    app.setDesktopFileName("dayscape.desktop")
+
+    icon_path = Path(__file__).parent / "assets" / "dayscape.svg"
+    app.setWindowIcon(QIcon(str(icon_path)))
 
     font_dir = os.environ.get("DAYSCAPE_FONT_DIR")
     load_fonts(font_dir)
