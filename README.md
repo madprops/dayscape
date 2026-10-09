@@ -10,6 +10,16 @@
 
 With a dark-mode aesthetics, custom heatmaps, and a powerful search engine, you can effortlessly visualize your year, track trends across weekdays, and query your notes instantly.
 
+## Screenshots
+
+![](img/readme_1.png)
+
+![](img/readme_2.png)
+
+![](img/readme_3.png)
+
+![](img/readme_4.png)
+
 ## Features
 
 - ⚡️ **Frictionless Entry**: Select a day and just type. Autosave kicks in seamlessly.
