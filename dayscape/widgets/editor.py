@@ -261,7 +261,7 @@ class DayEditor(QWidget):
         self._loading = False
         self.setObjectName("editorPanel")
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
-        self.setMinimumWidth(360)
+        self.setMinimumWidth(280)
 
         self._timer = QTimer(self)
         self._timer.setSingleShot(True)

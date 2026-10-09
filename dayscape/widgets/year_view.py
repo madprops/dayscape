@@ -55,7 +55,7 @@ class YearHeatmap(QWidget):
         self.selected: date | None = None
         self._hover: tuple[str, object] | None = None
         self.setMouseTracking(True)
-        self.setMinimumWidth(600)
+        self.setMinimumWidth(150)
 
     # geometry ---------------------------------------------------------------
     @property

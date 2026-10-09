@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
     QFrame,
     QHBoxLayout,
     QMainWindow,
+    QScrollArea,
     QSplitter,
     QStackedWidget,
     QVBoxLayout,
@@ -120,7 +121,11 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.insights_view)  # 3
         self.stack.addWidget(self.search_view)  # 4
 
-        self.splitter.addWidget(self.stack)
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(self.stack)
+        scroll.setFrameShape(QFrame.Shape.NoFrame)
+        self.splitter.addWidget(scroll)
 
         # Right Editor
         self.editor = DayEditor(store)

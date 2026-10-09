@@ -36,7 +36,7 @@ class WeekBoard(QWidget):
         self.selected: date | None = None
         self._hover: int | None = None
         self.setMouseTracking(True)
-        self.setMinimumHeight(380)
+        self.setMinimumHeight(200)
 
     def set_week(self, monday: date) -> None:
         self.monday = monday

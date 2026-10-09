@@ -55,7 +55,7 @@ class MonthGrid(QWidget):
         self.selected: date | None = None
         self._hover: tuple[str, object] | None = None
         self.setMouseTracking(True)
-        self.setMinimumHeight(self.HEADER + 5 * 96)
+        self.setMinimumHeight(self.HEADER + 5 * 40)
 
     def set_month(self, year: int, month: int) -> None:
         self.year, self.month = year, month
