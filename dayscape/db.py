@@ -16,7 +16,7 @@ from pathlib import Path
 
 from dayscape.models import Entry
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS entries (
@@ -25,6 +25,10 @@ CREATE TABLE IF NOT EXISTS entries (
     notes       TEXT NOT NULL DEFAULT '',
     created_at  TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS settings (
+    key TEXT PRIMARY KEY,
+    value TEXT
 );
 """
 
@@ -46,6 +50,8 @@ class Database:
         (version,) = self._conn.execute("PRAGMA user_version").fetchone()
         if version < 1:
             self._conn.executescript(SCHEMA)
+        if version < 2:
+            self._conn.execute("CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT)")
         self._conn.execute(f"PRAGMA user_version={SCHEMA_VERSION}")
         self._conn.commit()
 
@@ -61,6 +67,17 @@ class Database:
     # ------------------------------------------------------------------ reads
     def get(self, day: date) -> Entry | None:
         return self._cache.get(day)
+
+    def get_setting(self, key: str, default: str = "") -> str:
+        row = self._conn.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone()
+        return row[0] if row else default
+
+    def set_setting(self, key: str, value: str) -> None:
+        self._conn.execute(
+            "INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+            (key, value)
+        )
+        self._conn.commit()
 
     def __len__(self) -> int:
         return len(self._cache)

@@ -21,6 +21,12 @@ class Store(QObject):
     def get(self, day: date) -> Entry | None:
         return self.db.get(day)
 
+    def get_setting(self, key: str, default: str = "") -> str:
+        return self.db.get_setting(key, default)
+
+    def set_setting(self, key: str, value: str) -> None:
+        self.db.set_setting(key, value)
+
     def score(self, day: date) -> int | None:
         e = self.db.get(day)
         return e.score if e else None

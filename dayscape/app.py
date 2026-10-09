@@ -26,12 +26,14 @@ from dayscape import __version__
 from dayscape.db import Database
 from dayscape.demo import generate
 from dayscape.store import Store
+from dayscape.sync import SyncManager
 from dayscape.theme import apply, load_fonts
 from dayscape.widgets.common import Segmented, label
 from dayscape.widgets.editor import DayEditor
 from dayscape.widgets.insights_view import InsightsView
 from dayscape.widgets.month_view import MonthView
 from dayscape.widgets.search_view import SearchView
+from dayscape.widgets.storage_view import StorageView
 from dayscape.widgets.week_view import WeekView
 from dayscape.widgets.year_view import YearView
 
@@ -50,6 +52,12 @@ class MainWindow(QMainWindow):
         self.store = store
         self.setWindowTitle(f"Dayscape {__version__}")
         self.resize(1100, 750)
+
+        if str(store.db.path) != ":memory:":
+            self.sync_mgr = SyncManager(store.db.path, lambda: store.get_setting("git_url", ""), self)
+            self.store.changed.connect(lambda d: self.sync_mgr.schedule_backup() if d is not None else None)
+        else:
+            self.sync_mgr = None
 
         central = QWidget()
         central.setObjectName("central")
@@ -70,7 +78,7 @@ class MainWindow(QMainWindow):
         tlay.addWidget(brand)
         tlay.addSpacing(30)
 
-        self.nav = Segmented(["Year", "Month", "Week", "Insights"])
+        self.nav = Segmented(["Year", "Month", "Week", "Insights", "Storage"])
         self.nav.changed.connect(self._nav_changed)
         tlay.addWidget(self.nav)
 
@@ -118,6 +126,8 @@ class MainWindow(QMainWindow):
         self.insights_view.daySelected.connect(self._select_day)
         self.insights_view.searchRequested.connect(self._run_search)
 
+        self.storage_view = StorageView(store, self.sync_mgr)
+
         self.search_view = SearchView(store)
         self.search_view.daySelected.connect(self._select_day)
         self.search_view.closeRequested.connect(self._close_search)
@@ -126,7 +136,8 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.month_view)  # 1
         self.stack.addWidget(self.week_view)  # 2
         self.stack.addWidget(self.insights_view)  # 3
-        self.stack.addWidget(self.search_view)  # 4
+        self.stack.addWidget(self.storage_view)  # 4
+        self.stack.addWidget(self.search_view)  # 5
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -157,7 +168,7 @@ class MainWindow(QMainWindow):
 
     def _nav_changed(self, idx: int):
         self.current_nav_index = idx
-        if self.stack.currentIndex() != 4:  # not search
+        if self.stack.currentIndex() != 5:  # not search
             self.stack.setCurrentIndex(idx)
         else:
             self.stack.setCurrentIndex(idx)
@@ -181,7 +192,7 @@ class MainWindow(QMainWindow):
         self.nav.set_index(1)
 
     def _open_search(self):
-        self.stack.setCurrentIndex(4)
+        self.stack.setCurrentIndex(5)
         self.search_view.focus_search()
 
     def _run_search(self, query: str):
@@ -192,7 +203,7 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentIndex(self.current_nav_index)
 
     def _close_search_if_open(self):
-        if self.stack.currentIndex() == 4:
+        if self.stack.currentIndex() == 5:
             self._close_search()
 
     def closeEvent(self, e):
