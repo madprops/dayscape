@@ -59,4 +59,4 @@ python -m dayscape --demo
 
 ## License
 
-MIT License
+GPLv3
