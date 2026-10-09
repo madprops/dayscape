@@ -20,6 +20,8 @@ With a dark-mode aesthetics, custom heatmaps, and a powerful search engine, you 
 
 ![](img/readme_4.png)
 
+![](img/readme_5.png)
+
 ## Features
 
 - ⚡️ **Frictionless Entry**: Select a day and just type. Autosave kicks in seamlessly.
