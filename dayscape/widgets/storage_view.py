@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QUrl
+from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton
 
 from dayscape.store import Store
@@ -89,6 +90,36 @@ class StorageView(QWidget):
         h_sync.addStretch(1)
 
         scard.body.addLayout(h_sync)
+
+        scard.body.addSpacing(24)
+
+        file_head = QHBoxLayout()
+        file_head.addWidget(caps("Local File"))
+        file_head.addStretch(1)
+        scard.body.addLayout(file_head)
+
+        file_desc = label("Open the local folder containing your dayscape.db file.", "muted")
+        file_desc.setStyleSheet("font-size: 14px;")
+        scard.body.addWidget(file_desc)
+        file_desc.setWordWrap(True)
+
+        scard.body.addSpacing(10)
+
+        self.open_btn = QPushButton("Open File")
+        self.open_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.open_btn.setStyleSheet("font-size: 14px; padding: 8px 20px;")
+        
+        if str(store.db.path) != ":memory:":
+            db_dir = store.db.path.parent
+            self.open_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl.fromLocalFile(str(db_dir))))
+        else:
+            self.open_btn.setEnabled(False)
+            self.open_btn.setToolTip("Not available in demo mode")
+
+        h_open = QHBoxLayout()
+        h_open.addWidget(self.open_btn, 0)
+        h_open.addStretch(1)
+        scard.body.addLayout(h_open)
 
         root.addWidget(scard)
         root.addStretch(1)
