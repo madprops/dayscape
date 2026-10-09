@@ -1,0 +1,5 @@
+Gemini Pro used for thinking the idea (prompt.txt)
+Initial version done almost entirely by Claude Opus.
+Opus ran out of tokens in the last minute.
+Gemini Pro completed the job.
+Gemini Pro did later fixes and new features.
