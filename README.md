@@ -30,6 +30,7 @@ With a dark-mode aesthetics, custom heatmaps, and a powerful search engine, you 
 - 🎨 **Visual Heatmaps**: See your entire year mapped out in a beautiful GitHub-commit-style graph, interpolated with unique colors based on your daily scores.
 - 📊 **Insight Engine**: A dedicated dashboard showcasing rolling averages, weekday trends, and keyword/tag distributions.
 - 🔍 **Live Search (`Ctrl+K`)**: Rapidly search by notes, tags (`#work`), or score conditions (`score:8-10`, `day:monday`).
+- ☁️ **Git Sync & Backup**: Securely and automatically backup your database to any remote Git repository (e.g., GitHub). Local edits are debounced and pushed entirely in the background. A dedicated manual sync button helps fetch remote changes if you use Dayscape across multiple devices.
 - 🔒 **Private & Local**: Your data never leaves your machine. It's stored in a robust local SQLite database running in lightning-fast WAL mode.
 - ❄️ **Nix Ready**: Ships with a fully declarative `flake.nix` for instant, reproducible development and building on NixOS/Linux.
 
