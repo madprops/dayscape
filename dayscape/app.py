@@ -84,7 +84,7 @@ class MainWindow(QMainWindow):
 
         tlay.addStretch(1)
 
-        today_btn = label("Today", "muted")
+        today_btn = label("Go To Today", "muted")
         today_btn.setObjectName("todayButton")
         today_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         today_btn.mousePressEvent = lambda e: self._select_day(date.today())
